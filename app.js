@@ -22,7 +22,7 @@ const rateLimit = require("express-rate-limit");
 const fileupload = require("express-fileupload");
 //app.use('/images', express.static(__dirname + '/images'));
 blinker = require("express-blinker"); //directory traversal
-basePath = path.join(__dirname, "images");
+basePath = path.resolve(__dirname, "images");
 console.log(basePath)
 const limiter = rateLimit({
     max: 30,
@@ -46,13 +46,23 @@ app.use(blinker(basePath, [
 
 const imageStorage = multer.diskStorage({
     // Destination to store image     
-    destination: 'images', 
+    destination: (req, file, cb) => {
+      const uploadBasePath = path.resolve(__dirname, 'images');
+      cb(null, uploadBasePath);
+    }, 
       filename: (req, file, cb) => {
        // console.log(file.originalname)
         //console.log("fil extension"+ path.extname(file.originalname))
 
-          cb(null, file.fieldname + '_' + Date.now() 
-             + path.extname(file.originalname))
+          const safeFieldname = path.basename(file.fieldname).replace(/[^a-zA-Z0-9_-]/g, '_');
+          const filename = safeFieldname + '_' + Date.now() 
+             + path.extname(file.originalname);
+          const resolvedPath = path.resolve(__dirname, 'images', filename);
+          const uploadBasePath = path.resolve(__dirname, 'images');
+          if (!resolvedPath.startsWith(uploadBasePath + path.sep)) {
+            return cb(new Error('Invalid file path'));
+          }
+          cb(null, filename)
             // file.fieldname is name of the field (image)
             // path.extname get the uploaded file extension
     }
