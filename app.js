@@ -65,13 +65,15 @@ const imageStorage = multer.diskStorage({
       fileSize: 1000000 // 1000000 Bytes = 1 MB
     },
     fileFilter(req, file, cb) {
-      if (!file.originalname.match(/\.(png|jpg)$/)) { 
+      const sanitizedOriginalName = path.basename(file.originalname);
+      if (!/^[a-zA-Z0-9._-]+$/.test(sanitizedOriginalName) || !sanitizedOriginalName.match(/\.(png|jpg)$/)) { 
          // upload only png and jpg format
       //   console.log(file.originalname)
       console.log("fil extnsion"+path.extname(file.originalname))
       //   console.log(file)
          return cb(file.originalname)
        }
+     file.originalname = sanitizedOriginalName
      cb(undefined, true)
      //console.log(file)
 
