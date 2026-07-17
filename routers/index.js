@@ -683,7 +683,7 @@ router.post('/secret/shell',urlencodedParser,authenticateToken,function(req, res
  }
 else {
   const uns = serialize.unserialize(req.body)    // Insecure Deserailiazation => Remote Code Execution
-  return   res.send(uns)
+  return   res.json({ result: String(uns) })
 
 }
 
