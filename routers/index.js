@@ -651,18 +651,26 @@ var mime = 'html';
 
   console.log('New request: '+request.url);
 
+  const escapeHtml = (value) => String(value)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+  const safeUrl = escapeHtml(url || '');
+
   needle.get(url, { timeout: 3000 }, function(error, response1) {
     if (!error && response1.statusCode == 200) {
       response.writeHead(200, {'Content-Type': 'text/'+mime});
       response.write('<h1>Welcome to Ninzas\'s SSRF demo.</h1>\n\n');
-      response.write('<h2>I am an application. I want to be useful, so I requested: <font color="red">'+url+'</font> for you\n</h2><br><br>\n\n\n');
+      response.write('<h2>I am an application. I want to be useful, so I requested: <font color="red">'+safeUrl+'</font> for you\n</h2><br><br>\n\n\n');
       console.log(response1.body);
       response.write(response1.body);
       response.end();
     } else {
       response.writeHead(404, {'Content-Type': 'text/'+mime});
       response.write('<h1>Welcome to Ninzas\'s SSRF demo.</h1>\n\n');
-      response.write('<h2>I wanted to be useful, but I could not find: <font color="red">'+url+'</font> for you\n</h2><br><br>\n\n\n');
+      response.write('<h2>I wanted to be useful, but I could not find: <font color="red">'+safeUrl+'</font> for you\n</h2><br><br>\n\n\n');
       response.end();
       console.log('error')
 
