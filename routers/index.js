@@ -678,12 +678,10 @@ router.post('/secret/shell',urlencodedParser,authenticateToken,function(req, res
 
   console.log(req.body.user);
   if (Object.keys(req.body).length === 0 ) {
-    const ser = serialize.serialize(req.body)
-   return  res.send("sorry No user defined" + ser)
+    return  res.send("sorry No user defined")
  }
 else {
-  const uns = serialize.unserialize(req.body)    // Insecure Deserailiazation => Remote Code Execution
-  return   res.send(uns)
+  return   res.json(req.body)
 
 }
 
