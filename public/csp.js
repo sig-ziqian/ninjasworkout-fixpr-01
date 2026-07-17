@@ -6,6 +6,7 @@ const app = express();
 const path = require('path');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+const MongoStore = require('connect-mongo');
 const dbConfig = require('./database/db');
 var cookieparser =require('cookie-parser');
 const csurf = require('csurf');
@@ -94,6 +95,7 @@ app.use(session({
   
     // It holds the secret key for session
     secret: 'Your_Secret_Key',
+    store: MongoStore.create({ mongoUrl: dbConfig.db }),
   
     // Forces the session to be saved
     // back to the session store
