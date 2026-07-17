@@ -7,7 +7,10 @@ const userSchema = require("../models/user");
 const postSchema = require("../models/post");
 const flash   = require('connect-flash');
 const jwt = require("jsonwebtoken");
-const accessTokenSecret = 'hello';
+const accessTokenSecret = process.env.ACCESS_TOKEN_SECRET;
+if (!accessTokenSecret) {
+  throw new Error('ACCESS_TOKEN_SECRET is not set');
+}
 const axios = require('axios');
 var autoIncrement = require("mongodb-autoincrement");
 var pug = require('pug');
