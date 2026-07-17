@@ -97,8 +97,6 @@ check('password')
     const errors = validationResult(req)
   if (!errors.isEmpty()) {
     return res.status(422).jsonp(errors.array());
-
-    const alert = errors.array()
   }
 
 
@@ -265,8 +263,6 @@ router.post("/secret/signup",urlencodedParser,[
   const errors = validationResult(req)
   if (!errors.isEmpty()) {
     return res.status(422).jsonp(errors.array());
-
-    const alert = errors.array()
   }
 
 email =req.email;
