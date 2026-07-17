@@ -12,7 +12,8 @@ const csurf = require('csurf');
 var multer = require('multer');
 
 var upload = multer({
-  limits: { fileSize: 1024*1024 }
+  limits: { fileSize: 1024*1024 },
+  storage: multer.memoryStorage()
 });
 
 const rateLimit = require("express-rate-limit");
@@ -62,12 +63,12 @@ const imageStorage = multer.diskStorage({
       fileSize: 1000000 // 1000000 Bytes = 1 MB
     },
     fileFilter(req, file, cb) {
-      if (!file.originalname.match(/\.(png|jpg)$/)) { 
+      if (!file.originalname.match(/\.(png|jpg)$/i)) { 
          // upload only png and jpg format
       //   console.log(file.originalname)
       console.log("fil extnsion"+path.extname(file.originalname))
       //   console.log(file)
-         return cb(file.originalname)
+         return cb(new Error('Only .png and .jpg files are allowed'))
        }
      cb(undefined, true)
      //console.log(file)
