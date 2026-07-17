@@ -51,7 +51,7 @@ const imageStorage = multer.diskStorage({
        // console.log(file.originalname)
         //console.log("fil extension"+ path.extname(file.originalname))
 
-          cb(null, file.fieldname + '_' + Date.now() 
+          cb(null, 'file' + '_' + Date.now() 
              + path.extname(file.originalname))
             // file.fieldname is name of the field (image)
             // path.extname get the uploaded file extension
