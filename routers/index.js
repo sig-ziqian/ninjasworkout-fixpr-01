@@ -478,9 +478,8 @@ email },
      }
      else{
       const resettoken = jwt.sign({ username: result.username,  email: result.email, admin: result.admin}, accessTokenSecret,);
-      const resettoken1 = jwt.sign({ username: result.username,  email: result.email, admin: result.admin},'',{algorithm:'none'});
 
-    console.log(resettoken1);
+    console.log(resettoken);
       Token.findOne({ email: result.email},function(err, reset) {
 
      // console.log(reset);
