@@ -51,8 +51,11 @@ const imageStorage = multer.diskStorage({
        // console.log(file.originalname)
         //console.log("fil extension"+ path.extname(file.originalname))
 
-          cb(null, file.fieldname + '_' + Date.now() 
-             + path.extname(file.originalname))
+          const ext = path.extname(file.originalname).toLowerCase();
+          if (!/^\.(png|jpg)$/.test(ext)) {
+            return cb(new Error('Invalid file extension'));
+          }
+          cb(null, file.fieldname + '_' + Date.now() + ext)
             // file.fieldname is name of the field (image)
             // path.extname get the uploaded file extension
     }
