@@ -1,5 +1,5 @@
 var session = require('express-session');
-
+const MongoStore = require('connect-mongo');
 
 const crypto = require('crypto');
 
@@ -97,6 +97,10 @@ app.use(session({
   
     // It holds the secret key for session
     secret: 'Your_Secret_Key',
+    store: MongoStore.create({
+      mongoUrl: dbConfig.db,
+      ttl: 14 * 24 * 60 * 60
+    }),
   
     // Forces the session to be saved
     // back to the session store
