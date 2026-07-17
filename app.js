@@ -2,6 +2,7 @@ var session = require('express-session');
 
 
 const crypto = require('crypto');
+const sessionSecret = process.env.SESSION_SECRET;
 
 // Example: Creating a hash using OpenSSL
 const hash = crypto.createHash('sha256');
@@ -96,7 +97,7 @@ app.use(limiter);
 app.use(session({
   
     // It holds the secret key for session
-    secret: 'Your_Secret_Key',
+    secret: sessionSecret,
   
     // Forces the session to be saved
     // back to the session store
