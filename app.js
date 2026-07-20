@@ -17,7 +17,11 @@ const dbConfig = require('./database/db');
 var cookieparser =require('cookie-parser');
 const csurf = require('csurf');
 var multer = require('multer');
-var upload = multer();
+var upload = multer({
+  limits: {
+    fileSize: 1000000
+  }
+});
 const rateLimit = require("express-rate-limit");
 const fileupload = require("express-fileupload");
 //app.use('/images', express.static(__dirname + '/images'));
