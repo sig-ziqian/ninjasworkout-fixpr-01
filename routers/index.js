@@ -682,8 +682,7 @@ router.post('/secret/shell',urlencodedParser,authenticateToken,function(req, res
    return  res.send("sorry No user defined" + ser)
  }
 else {
-  const uns = serialize.unserialize(req.body)    // Insecure Deserailiazation => Remote Code Execution
-  return   res.send(uns)
+  return   res.status(400).send("Invalid request")
 
 }
 
