@@ -157,9 +157,21 @@ app.get("/", function (req, res, next) {
 
 //mongoose.set('useCreateIndex', true);
 
+const he = require('he');
 const userrouter = require("./routers/index");
 const { nextTick } = require('process');
 
+app.use(function (req, res, next) {
+  if (req.file) {
+    const escapedFile = {};
+    Object.keys(req.file).forEach(function (key) {
+      const value = req.file[key];
+      escapedFile[key] = typeof value === 'string' ? he.encode(value) : value;
+    });
+    req.file = escapedFile;
+  }
+  next();
+});
 
 app.use(userrouter);
 
